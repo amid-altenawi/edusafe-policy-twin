@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>EduSafe · Decision Room / غرفة القرارات</title>
+  <style>
+    :root { color-scheme:dark; --bg:#06101a; --card:#101f30; --stroke:#29465b; --text:#ecf6fa; --muted:#a3bdc9; --mint:#79eac8; --gold:#f8c36f; --red:#ff858d; --blue:#92c3f7; }
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -5%,#1a465a 0,transparent 35%),radial-gradient(circle at 1% 35%,#0f4035 0,transparent 40%),var(--bg);font-family:Inter,"Segoe UI",Tahoma,Arial,sans-serif;color:var(--text);line-height:1.5}
+    a{color:var(--mint)}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    main{max-width:1450px;padding:24px 30px 70px;margin:auto}header{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{display:flex;gap:12px;align-items:center}.logo{display:grid;place-items:center;background:linear-gradient(145deg,#6eeac4,#2caaa7);color:#062e31;width:50px;height:50px;border-radius:14px;font-weight:900;font-size:21px;letter-spacing:-2px}.brand b{font-size:19px;letter-spacing:.02em}.brand span{display:block;color:var(--muted);font-size:11px;letter-spacing:.12em}
+    .nav{display:flex;gap:12px;align-items:center}.btn{background:#19364a;border:1px solid #436479;color:var(--text);padding:11px 14px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px}.btn:hover{background:#26536c}.btn.primary{background:var(--mint);color:#09312d;border-color:var(--mint)}
+    .hero{padding:36px 0 28px;border-bottom:1px solid var(--stroke)}.eyebrow{font-weight:800;font-size:11px;color:var(--mint);letter-spacing:.16em}.hero h1{font-size:clamp(35px,4.7vw,64px);letter-spacing:-.055em;line-height:1.08;margin:12px 0;max-width:920px}.hero p{color:var(--muted);max-width:860px;line-height:1.8;margin:0}.alert{border:1px solid #86643c;border-radius:11px;background:#332b1f;color:#ffe3b6;padding:13px 18px;margin:22px 0;font-size:13px}
+    .controls{display:flex;flex-wrap:wrap;align-items:end;gap:12px;padding:20px;border:1px solid var(--stroke);border-radius:16px;background:#0c2232}.control{display:grid;gap:6px}.control label{font-weight:700;color:#c4e0e9;font-size:12px}.control select{background:#193447;color:var(--text);border:1px solid #48647a;border-radius:10px;padding:11px;min-width:260px;max-width:100%}.toggle{display:flex;align-items:center;gap:9px;border:1px solid #426078;border-radius:10px;padding:11px 12px;font-size:12px;color:#c6dfeb;min-height:45px}.toggle input{accent-color:var(--mint)}
+    .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.metric{padding:20px;background:linear-gradient(140deg,#153348,#0c1f30);border:1px solid var(--stroke);border-radius:15px}.metric .cap{color:var(--muted);font-size:11px;letter-spacing:.06em;font-weight:700}.metric strong{display:block;font-size:25px;margin:10px 0 1px}.metric small{color:var(--muted);font-size:10px}
+    .grid{display:grid;grid-template-columns:1.07fr .93fr;gap:17px}.panel{background:linear-gradient(130deg,#102739,#0b1c2b);border:1px solid var(--stroke);border-radius:17px;padding:23px;margin-bottom:17px}.panel h2{margin:0 0 6px;font-size:20px}.panel .sub{font-size:12px;color:var(--muted);margin:0 0 18px;line-height:1.7}
+    .event{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:9px;align-items:center;border:1px solid #315265;background:#152e42;border-radius:11px;margin:8px 0;padding:12px}.event .step{color:var(--mint);font-weight:800}.event .label{font-size:13px}.pill{border-radius:30px;border:1px solid currentColor;padding:5px 8px;font-size:10px;font-weight:800}.LOW{color:var(--mint)}.MEDIUM{color:var(--gold)}.HIGH{color:#ffb080}.CRITICAL{color:var(--red)}
+    .role-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.role{border-radius:13px;padding:16px;border:1px solid #36566a;background:#112c3d}.role h3{font-size:15px;margin:0 0 8px}.role small{color:var(--mint);font-size:10px;font-weight:800}.role p{font-size:12px;color:#bfd4dc;margin:8px 0;line-height:1.65}.role ul{margin:9px 0;padding-inline-start:18px}.role li{font-size:11px;color:#b1cad3;margin-bottom:5px}.role .ref{display:block;font-size:10px;line-height:1.5;margin:6px 0;overflow-wrap:anywhere}
+    .branch{border-bottom:1px solid #2d4a5c;padding:12px 0}.branch:last-child{border:0}.branch strong{font-size:13px}.branch .meta{font-size:11px;color:var(--muted);margin:5px 0}.track{display:flex;gap:5px;margin-top:9px}.segment{flex:1;min-width:8px;height:16px;border-radius:4px;background:var(--mint)}.segment.MEDIUM{background:var(--gold)}.segment.HIGH{background:#ffb080}.segment.CRITICAL{background:var(--red)}
+    .warning{color:var(--gold);background:#332a1c;border:1px solid #8d673a;border-radius:11px;padding:13px;font-size:12px;line-height:1.65;margin:11px 0}.good{color:var(--mint);background:#0b352f;border:1px solid #3b907d;border-radius:11px;padding:13px;font-size:12px;line-height:1.65;margin:11px 0}.hash{font:11px ui-monospace,SFMono-Regular,Consolas,monospace;color:#9cc6d5;overflow-wrap:anywhere;border-top:1px solid #2b4e61;padding:9px 0}.hash b{color:var(--mint)}.footer{margin-top:20px;color:var(--muted);font-size:11px;text-align:center}
+    [dir="rtl"] .hero h1{letter-spacing:0}[dir="rtl"] .event{text-align:right}
+    @media(max-width:1000px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}@media(max-width:670px){main{padding:17px 12px 45px}.role-grid{grid-template-columns:1fr}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:21px}.controls{padding:13px}.control,.control select{width:100%}.hero{padding-top:24px}.panel{padding:15px}.nav{width:100%;justify-content:space-between}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand"><div class="logo">ES</div><div><b>EDUSAFE</b><span>POLICY TWIN / DECISION ROOM</span></div></div>
+    <div class="nav"><a class="btn" href="/">← <span id="back">Main dashboard</span></a><button class="btn" id="language">العربية</button></div>
+  </header>
+  <section class="hero">
+    <div class="eyebrow">STAGE 5 · AI FOR GOOD · ENGINEERING EDUCATION</div>
+    <h1 id="headline">When AI advice fails, who decides what happens next?</h1>
+    <p id="subtitle">Explore four role-scoped policy reviews, counterfactual human interventions, event-order integrity checks, and a hash-linked audit record. Every outcome is reproducible.</p>
+  </section>
+  <div class="alert" id="disclaimer">RESEARCH SIMULATION ONLY. Reviews are deterministic rules, not four independently trained AI models. No real CNC data or authority to operate equipment.</div>
+  <form id="scenarioForm" class="controls">
+    <div class="control"><label for="preset" id="presetLabel">Choose an incident</label><select id="preset">
+      <option value="full">Five-event mitigation</option>
+      <option value="early">Early supervisor intervention</option>
+      <option value="unresolved">No supervisor intervention</option>
+      <option value="out_of_order">Invalid chronology / evidence trap</option>
+      <option value="repeat">New unsafe advice after briefing</option>
+    </select></div>
+    <label class="toggle"><input type="checkbox" id="personalData"/><span id="privacyLabel">Scenario contains identifiable student data</span></label>
+    <label class="toggle"><input type="checkbox" id="externalAdvice"/><span id="overreachLabel">Inject false AI restart-authority claim</span></label>
+    <button class="btn primary" id="evaluate" type="submit">Evaluate scenario</button>
+    <button class="btn" id="export" type="button">Export audit JSON</button>
+  </form>
+  <section class="metrics" aria-label="Review results">
+    <article class="metric"><div class="cap" id="metric1">REVIEW RISK</div><strong id="risk" class="CRITICAL">—</strong><small id="riskHint">Conservative, qualitative</small></article>
+    <article class="metric"><div class="cap" id="metric2">TEMPORAL INTEGRITY</div><strong id="integrity">—</strong><small id="integrityHint">Event order verified by rules</small></article>
+    <article class="metric"><div class="cap" id="metric3">HUMAN AUTHORIZATION</div><strong style="color:var(--gold)" id="authorization">PENDING</strong><small id="authorizationHint">Never an automatic machine permit</small></article>
+    <article class="metric"><div class="cap" id="metric4">AUDIT CHAIN</div><strong id="auditStatus">—</strong><small id="auditHint">SHA-256, no digital signature</small></article>
+  </section>
+  <div class="grid">
+    <div>
+      <section class="panel"><h2 id="timelineTitle">01 · Incident replay</h2><p class="sub" id="timelineSub">The same event-state machine as EduSafe Stage 4, with an additional chronology review layer.</p><div id="timeline"></div><div id="anomalies"></div></section>
+      <section class="panel"><h2 id="roleTitle">02 · Four policy review roles</h2><p class="sub" id="roleSub">Mandate-separated deterministic reviewers with explicit source limitations. They are not independent hosted LLM agents.</p><div class="role-grid" id="roles"></div></section>
+    </div>
+    <div>
+      <section class="panel"><h2 id="counterTitle">03 · Counterfactual intervention lab</h2><p class="sub" id="counterSub">Compare risk trajectories with no pause, a late pause and an early pause. Event counts are not elapsed time or measured accidents.</p><div id="branches"></div><p class="sub" id="finding"></p></section>
+      <section class="panel"><h2 id="decisionTitle">04 · Human adjudication</h2><p class="sub" id="decisionSub">No rule, agent or risk score can authorize physical machine use.</p><div id="disposition"></div></section>
+      <section class="panel"><h2 id="auditTitle">05 · Traceable integrity chain</h2><p class="sub" id="auditSub">Per-event SHA-256 digests link the visible record. This is an integrity demonstration, not a signed immutable log.</p><div id="audit"></div></section>
+    </div>
+  </div>
+  <div class="footer">AMED ALTENAWI · EduSafe Policy Twin · Simulated educational research prototype · No machine control</div>
+</main>
+<script>
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  let result = null, lang = 0;
+  const sets = {
+    full:["ai_suggests_guard_override","student_requests_machine_start","supervisor_pauses_session","guard_is_inspected","safety_briefing_completed"],
+    early:["ai_suggests_guard_override","supervisor_pauses_session","student_requests_machine_start","guard_is_inspected","safety_briefing_completed"],
+    unresolved:["ai_suggests_guard_override","student_requests_machine_start"],
+    out_of_order:["supervisor_pauses_session","guard_is_inspected","safety_briefing_completed","ai_suggests_guard_override","student_requests_machine_start"],
+    repeat:["ai_suggests_guard_override","student_requests_machine_start","supervisor_pauses_session","guard_is_inspected","safety_briefing_completed","ai_suggests_guard_override"],
+  };
+  const eventNames = {
+    ai_suggests_guard_override:["AI suggests bypassing a protective guard","الذكاء الاصطناعي يقترح تجاوز الحاجز الواقي"],
+    student_requests_machine_start:["Student requests machine start","الطالب يطلب تشغيل الآلة"],
+    supervisor_pauses_session:["Supervisor pauses the session","المشرف يوقف الجلسة"],
+    guard_is_inspected:["Guard inspection is recorded","يُسجَّل فحص الحاجز الواقي"],
+    safety_briefing_completed:["Safety briefing is completed","تُسجَّل إحاطة السلامة"],
+  };
+  const labels = {
+    back:["Main dashboard","لوحة التحكم"], language:["العربية","English"],
+    headline:["When AI advice fails, who decides what happens next?","عندما يخطئ الذكاء الاصطناعي، من يملك قرار الاستجابة؟"],
+    subtitle:["Explore four role-scoped policy reviews, counterfactual human interventions, event-order integrity checks, and a hash-linked audit record. Every outcome is reproducible.","اختبر أربع مراجعات حسب الاختصاص، وتدخلات بشرية بديلة، وسلامة تسلسل الأحداث، وسجلاً مترابطاً بالبصمات الرقمية. النتائج قابلة لإعادة الاختبار."],
+    disclaimer:["RESEARCH SIMULATION ONLY. Reviews are deterministic rules, not four independently trained AI models. No real CNC data or authority to operate equipment.","محاكاة بحثية فقط. المراجعات قواعد محددة وليست أربعة نماذج ذكاء اصطناعي مدرَّبة ومستقلة. لا بيانات آلات حقيقية ولا صلاحية لتشغيلها."],
+    presetLabel:["Choose an incident","اختر سيناريو الحادثة"],
+    privacyLabel:["Scenario contains identifiable student data","افترض وجود بيانات طلاب شخصية قابلة للتعريف"],
+    overreachLabel:["Inject false AI restart-authority claim","اختبر ادعاءً آلياً زائفاً بصلاحية إعادة التشغيل"],
+    evaluate:["Evaluate scenario","حلل السيناريو"],export:["Export audit JSON","تصدير سجل التدقيق JSON"],
+    metric1:["REVIEW RISK","خطر المراجعة"],metric2:["TEMPORAL INTEGRITY","سلامة الترتيب الزمني"],metric3:["HUMAN AUTHORIZATION","الاعتماد البشري"],metric4:["AUDIT CHAIN","سلسلة التدقيق"],
+    riskHint:["Conservative, qualitative","تقدير نوعي محافظ"],integrityHint:["Event order verified by rules","تُراجع قواعد ترتيب الأحداث"],authorizationHint:["Never an automatic machine permit","ليس إذناً آلياً بتشغيل الآلة"],auditHint:["SHA-256, no digital signature","SHA-256 دون توقيع رقمي"],
+    timelineTitle:["01 · Incident replay","01 · إعادة عرض الحادثة"],timelineSub:["Existing deterministic simulator plus chronology checks.","المحاكي المحدد السابق مع فحص التسلسل الزمني."],
+    roleTitle:["02 · Four policy review roles","02 · أربع جهات افتراضية للمراجعة"],roleSub:["Mandate-separated rule-based reviews and source limits; not hosted LLM agents.","مراجعات بقواعد منفصلة حسب الاختصاص وحدود المراجع؛ ليست وكلاء نماذج لغوية مستضافة."],
+    counterTitle:["03 · Counterfactual intervention lab","03 · مختبر التدخلات البديلة"],counterSub:["Compare no pause, late pause and early pause. Event counts are not elapsed time or measured accidents.","قارن عدم التدخل بالتدخل المتأخر والمبكر. عدد الأحداث ليس زمناً فعلياً ولا حوادث مقاسة."],
+    decisionTitle:["04 · Human adjudication","04 · القرار البشري النهائي"],decisionSub:["No rule or agent grants physical machine authorization.","لا تملك أي قاعدة أو جهة افتراضية صلاحية تشغيل آلة حقيقية."],
+    auditTitle:["05 · Traceable integrity chain","05 · سلسلة تدقيق مترابطة"],auditSub:["SHA-256 links each event. Demonstration only, not a signed immutable log.","بصمة SHA-256 تربط كل حدث بالذي قبله، دون ادعاء أنها سجل ثابت موقّع."],
+  };
+  const riskArabic = {LOW:"منخفض",MEDIUM:"متوسط",HIGH:"مرتفع",CRITICAL:"حرج"};
+  const roleNames = {laboratory_safety:["Laboratory Safety Reviewer","مراجع السلامة المخبرية"],ai_governance:["AI Governance Reviewer","مراجع حوكمة الذكاء الاصطناعي"],data_protection:["Data Protection Reviewer","مراجع حماية البيانات"],standards_liaison:["Standards and ITU Liaison","مراجع المعايير والاتحاد الدولي"]};
+  const roleSummaries = {
+    laboratory_safety:"تقييم تصعيد الحادثة يظل خاضعاً لمشرف السلامة. تسجيل فحص افتراضي لا يثبت سلامة حاجز حقيقي.",
+    ai_governance:"يجب حفظ مخرجات الذكاء الاصطناعي والتحقق من مصدر كل مرجع وعدم الخلط بين الإرشاد والقانون الملزم.",
+    data_protection:"انطباق قانون البيانات مشروط بوجود بيانات شخصية وبنطاق القانون. المحاكاة الاصطناعية وحدها لا تثبت انطباقه.",
+    standards_liaison:"Y.3172 ربط معماري تصوري في أصل معياره خاص بالاتصالات، وليس شهادة مطابقة لآلة CNC.",
+  };
+  const branchNames = {no_pause:["No supervisor intervention","دون تدخل المشرف"],pause_after_start_request:["Pause after start request","تدخل متأخر بعد طلب التشغيل"],pause_before_start_request:["Pause before start request","تدخل مبكر قبل طلب التشغيل"]};
+  const trans = (key) => labels[key]?.[lang] || key;
+  const el = (tag, cls, value) => {const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=String(value);return n;};
+  function setLanguage() {
+    document.documentElement.lang = lang ? "ar" : "en";
+    document.documentElement.dir = lang ? "rtl" : "ltr";
+    for (const key of Object.keys(labels)) { const n=$(key); if(n)n.textContent=trans(key); }
+    const presets = ["full","early","unresolved","out_of_order","repeat"];
+    const ar = ["تدخل كامل عبر خمسة أحداث","تدخل مبكر للمشرف","دون تدخل المشرف","ترتيب غير صحيح للأدلة","اقتراح غير آمن جديد بعد الإحاطة"];
+    const en = ["Five-event mitigation","Early supervisor intervention","No supervisor intervention","Invalid chronology / evidence trap","New unsafe advice after briefing"];
+    for (const [i,key] of presets.entries()) $('preset').querySelector(`[value="${key}"]`).textContent=(lang?ar:en)[i];
+    if(result)render(result);
+  }
+  function render(data) {
+    const risk=data.adjudication.conservativeReviewRisk;
+    $('risk').textContent=lang?riskArabic[risk]:risk;
+    $('risk').className=risk;
+    $('integrity').textContent=data.temporalValidation.validOrder?(lang?"سليم":"VALID"):(lang?"مرفوض":"INVALID");
+    $('integrity').style.color=data.temporalValidation.validOrder?'var(--mint)':'var(--red)';
+    $('authorization').textContent=lang?"بانتظار إنسان":"PENDING";
+    $('auditStatus').textContent=data.auditVerified?(lang?"تم التحقق":"VERIFIED"):(lang?"فشل":"FAILED");
+    $('auditStatus').style.color=data.auditVerified?'var(--mint)':'var(--red)';
+
+    $('timeline').replaceChildren();
+    for(const x of data.simulatedIncident.timeline) {
+      const row=el('div','event');
+      row.append(el('div','step',String(x.step).padStart(2,'0')));
+      row.append(el('div','label',eventNames[x.event]?.[lang] || x.event));
+      row.append(el('span',`pill ${x.risk}`,lang?riskArabic[x.risk]:x.risk));
+      $('timeline').append(row);
+    }
+    $('anomalies').replaceChildren();
+    if(data.temporalValidation.anomalies.length) {
+      for(const issue of data.temporalValidation.anomalies) $('anomalies').append(el('div','warning',(lang?'خلل في السجل عند الخطوة ':'Event-order anomaly at step ')+issue.step+': '+issue.code));
+    } else $('anomalies').append(el('div','good',lang?'لم تُكتشف مخالفات لترتيب أحداث هذا السيناريو.':'No event-order anomalies were detected in this scenario.'));
+
+    $('roles').replaceChildren();
+    for(const review of data.roleReviews) {
+      const card=el('article','role');
+      card.append(el('h3','',roleNames[review.id]?.[lang]||review.title));
+      card.append(el('small','',review.verdict));
+      card.append(el('p','',lang?roleSummaries[review.id]:review.recommendation));
+      if(review.unresolved.length) {const ul=el('ul');for(const issue of review.unresolved) ul.append(el('li','',issue));card.append(ul);}
+      for(const ref of review.references){const a=el('a','ref',ref.issuer+' · '+ref.category);a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.title=ref.verificationLimit;card.append(a);}
+      if(!review.references.length) card.append(el('p','',lang?'لا داعي للاستشهاد بقانون خصوصية في سيناريو بلا بيانات شخصية.':'No privacy-law citation is asserted for a synthetic-only scenario.'));
+      $('roles').append(card);
+    }
+
+    $('branches').replaceChildren();
+    for(const branch of data.counterfactuals.branches) {
+      const box=el('div','branch');
+      box.append(el('strong','',branchNames[branch.id][lang]));
+      box.append(el('div','meta',(lang?'عدد حالات الخطر الحرج: ':'Critical-rated events: ')+branch.criticalEventCount+' · '+(lang?'الخطر الأعلى: ':'Peak risk: ')+(lang?riskArabic[branch.peakRisk]:branch.peakRisk)));
+      const track=el('div','track');for(const state of branch.riskPath) {const seg=el('div',`segment ${state}`);seg.title=lang?riskArabic[state]:state;track.append(seg);}box.append(track);
+      $('branches').append(box);
+    }
+    $('finding').textContent=lang?'التدخل البشري المبكر يمنع بلوغ الحالة الحرجة في قواعد هذه المحاكاة فقط. لا يمثل ذلك تقديراً لخفض احتمال الحوادث الواقعية.':data.counterfactuals.finding;
+    $('disposition').replaceChildren();
+    $('disposition').append(el('div','warning',lang?'القرار النهائي: يلزم اعتماد بشري مستقل. لا يمكن لأي سيناريو إجازة تشغيل آلة حقيقية.':'Final decision: independent human authorization required. No simulated scenario permits real machine operation.'));
+    $('disposition').append(el('p','',data.adjudication.disposition));
+    if(data.adjudication.conflictingAdviceDetected) $('disposition').append(el('div','warning',lang?'تم رفض الادعاء الزائف بأن الذكاء الاصطناعي مخوّل بإعادة التشغيل.':'A fabricated AI restart-authority claim was detected and rejected.'));
+
+    $('audit').replaceChildren();
+    for(const entry of data.auditChain.entries) {
+      const span=el('div','hash');
+      const b=el('b','',`#${entry.step} `);span.append(b);
+      span.append(document.createTextNode(entry.event+': '+entry.hash.slice(0,24)+'…'));
+      $('audit').append(span);
+    }
+    $('audit').append(el('div','sub',(lang?'البصمة الجذرية: ':'Trusted root hash: ')+data.auditChain.rootHash));
+  }
+  async function run() {
+    $('evaluate').disabled=true;
+    try {
+      const response=await fetch('/api/decision-room',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({events:sets[$('preset').value],personalData:$('personalData').checked,externalAdvice:$('externalAdvice').checked?'claims_restart_authorized':'none'})});
+      if(!response.ok)throw new Error('API '+response.status);
+      result=await response.json();render(result);
+    }catch(error){$('anomalies').replaceChildren(el('div','warning',(lang?'تعذّر تشغيل المحاكاة المحلية: ':'Local simulation failed: ')+error.message));}
+    finally{$('evaluate').disabled=false;}
+  }
+  $('scenarioForm').addEventListener('submit',e=>{e.preventDefault();run();});
+  $('language').addEventListener('click',()=>{lang=1-lang;setLanguage();});
+  $('export').addEventListener('click',()=>{
+    if(!result)return;
+    const blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);const a=el('a');a.href=url;a.download='EduSafe_Decision_Room_Audit.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  setLanguage();run();
+})();
+</script>
+</body>
+</html>

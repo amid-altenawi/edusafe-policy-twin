@@ -1,0 +1,16 @@
+{
+  "description": "Exhaustive permutations of five fictional incident events (5!); internal software-invariant test only",
+  "version": "5.0.0-research",
+  "date": "2026-11-05",
+  "totalSequences": 120,
+  "flaggedInvalidOrder": 115,
+  "baselineReportedLowButOrderInvalid": 115,
+  "scenariosWithoutAutomaticAuthorization": 120,
+  "completeValidAuditChains": 120,
+  "citedIdsUnrecognized": 0,
+  "manualValidationNeeded": [
+    "This is not a statistical evaluation of injuries or physical risks.",
+    "No human-labeled independent benchmark or adversarial LLM evaluation is claimed.",
+    "The same rules define event order and its synthetic evaluation; expert adjudication is required."
+  ]
+}
