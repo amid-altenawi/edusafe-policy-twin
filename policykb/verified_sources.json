@@ -1,0 +1,166 @@
+{
+  "kbVersion": "4.0-draft",
+  "project": "EduSafe Policy Twin",
+  "reviewedOn": "2026-11-05",
+  "repositoryType": "curated_offline_metadata",
+  "retrievalType": "topic_filter_and_literal_keyword_search",
+  "recordsAreNotFullText": true,
+  "legalApplicabilityVerified": false,
+  "machineOperationApproval": false,
+  "topics": [
+    "student_data_privacy",
+    "ai_oversight",
+    "ai_governance",
+    "laboratory_safety",
+    "education_ai",
+    "ai_security",
+    "risk_management",
+    "itu_alignment"
+  ],
+  "count": 8,
+  "sources": [
+    {
+      "id": "UAE-PDPL-45-2021",
+      "title": "Federal Decree-Law No. 45 of 2021 Concerning the Protection of Personal Data",
+      "issuer": "UAE Government / UAE Legislation",
+      "category": "uae_federal_law",
+      "country": "UAE",
+      "url": "https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws",
+      "verifiedSection": "Personal Data Protection Law — official UAE Government overview",
+      "verifiedSummary": "The official overview describes rules for personal-data processing, confidentiality, individual rights and cross-border transfers, with statutory exceptions and scope conditions.",
+      "topics": [
+        "student_data_privacy",
+        "ai_governance"
+      ],
+      "applicationNote": "Potentially relevant IF real, identifiable student or staff data are processed and the applicable legal scope is met. Current demo uses fictional events and no personal data.",
+      "verificationLimit": "Overview only; no claim that every UAE institution or all education records are governed identically. Check full law, implementing rules and institutional context.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "UAE-AI-CHARTER-2024",
+      "title": "UAE Charter for the Development and Use of Artificial Intelligence",
+      "issuer": "UAE Government / Artificial Intelligence Office",
+      "category": "uae_policy_principles",
+      "country": "UAE",
+      "url": "https://u.ae/en/about-the-uae/strategies-initiatives-and-awards/policies/Ai/The-UAE-Charter-for-the-Development-and-Use-of-Artificial-Intelligence",
+      "verifiedSection": "Policy Objectives — human judgement and AI oversight",
+      "verifiedSummary": "The UAE Charter recognizes the value of human judgment, oversight, governance and accountability in AI development and use.",
+      "topics": [
+        "ai_oversight",
+        "ai_governance",
+        "education_ai"
+      ],
+      "applicationNote": "Supports a proposed human-in-the-loop review gate. It is a policy principle, not a directly evidenced CNC machine-start rule.",
+      "verificationLimit": "Do not present the Charter alone as a penal law or a certified laboratory SOP.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "UAE-AI-STRATEGY-2031",
+      "title": "UAE National Strategy for Artificial Intelligence 2031",
+      "issuer": "UAE Cabinet",
+      "category": "uae_national_strategy",
+      "country": "UAE",
+      "url": "https://uaecabinet.ae/en/news/uae-cabinet-adopts-national-artificial-intelligence-strategy-2031",
+      "verifiedSection": "21 April 2019 Cabinet announcement — strategic objectives",
+      "verifiedSummary": "The UAE Cabinet approved an AI strategy addressing education, skills, research, data infrastructure, governance and AI adoption in priority sectors.",
+      "topics": [
+        "education_ai",
+        "ai_governance",
+        "itu_alignment"
+      ],
+      "applicationNote": "National policy context for education-focused AI innovation; does not by itself establish local classroom or machine-guard requirements.",
+      "verificationLimit": "Strategic aims are not statutory CNC safety obligations.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "UAE-AI-CYBER-POLICY",
+      "title": "National Cyber Security Policy for Artificial Intelligence",
+      "issuer": "UAE Government",
+      "category": "uae_policy_principles",
+      "country": "UAE",
+      "url": "https://u.ae/en/about-the-uae/strategies-initiatives-and-awards/policies/cyber-activities/The-National-Cyber-Security-Policy-for-Artificial-Intelligence",
+      "verifiedSection": "Official policy overview — governance and human oversight",
+      "verifiedSummary": "The official overview addresses AI/ML security governance, tailored safeguards, human oversight in critical decisions and resilience testing.",
+      "topics": [
+        "ai_security",
+        "ai_oversight",
+        "risk_management"
+      ],
+      "applicationNote": "Candidate source for securing AI-generated educational recommendations and reviewing critical scenarios.",
+      "verificationLimit": "Full policy controls, sector coverage, and whether this prototype is in scope require further review; no certified compliance claim.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "UNESCO-AI-ETHICS-2021",
+      "title": "UNESCO Recommendation on the Ethics of Artificial Intelligence",
+      "issuer": "UNESCO",
+      "category": "international_recommendation",
+      "country": "International",
+      "url": "https://www.unesco.org/en/artificial-intelligence/recommendation-ethics",
+      "verifiedSection": "Core principles — safety, transparency, responsibility, human oversight",
+      "verifiedSummary": "UNESCO identifies safety, accountability, traceability, privacy and ultimate human oversight as central AI ethics principles.",
+      "topics": [
+        "ai_oversight",
+        "education_ai",
+        "risk_management",
+        "ai_governance"
+      ],
+      "applicationNote": "International ethics comparator for simulated safety incidents and education governance recommendations.",
+      "verificationLimit": "A UNESCO recommendation is not automatically binding on a particular university or CNC laboratory.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "NIST-AI-RMF-1",
+      "title": "NIST Artificial Intelligence Risk Management Framework 1.0",
+      "issuer": "US National Institute of Standards and Technology",
+      "category": "voluntary_risk_framework",
+      "country": "International",
+      "url": "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      "verifiedSection": "AI RMF Core — Govern, Map, Measure and Manage; MAP 3.5",
+      "verifiedSummary": "The voluntary framework structures risk practice into Govern, Map, Measure and Manage, including documenting human oversight processes.",
+      "topics": [
+        "risk_management",
+        "ai_oversight",
+        "ai_governance"
+      ],
+      "applicationNote": "Design reference for structured incident logging, risk reasoning and supervised mitigation.",
+      "verificationLimit": "Voluntary US framework, not UAE law. NIST states updates are under development.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "ITU-T-Y3172-2019",
+      "title": "ITU-T Y.3172 Architectural framework for machine learning in future networks including IMT-2020",
+      "issuer": "International Telecommunication Union",
+      "category": "international_technical_standard",
+      "country": "International",
+      "url": "https://www.itu.int/ITU-T/recommendations/rec.aspx?id=13894",
+      "verifiedSection": "Recommendation scope and architectural abstract (06/2019)",
+      "verifiedSummary": "Y.3172 specifies machine-learning pipeline, management and orchestration components for future telecommunications networks.",
+      "topics": [
+        "itu_alignment",
+        "ai_governance"
+      ],
+      "applicationNote": "Contest-requested ARCHITECTURE ANALOGY: data collection, evidence indexing, scenario processing, human review and output traceability.",
+      "verificationLimit": "Telecom/ML architecture; not a CNC machine safety standard and no claim of formal Y.3172 conformity.",
+      "checkedOn": "2026-11-05"
+    },
+    {
+      "id": "ITU-AI-READINESS-2",
+      "title": "AI Ready Analysis Towards a Standardized Readiness Framework Report 2.0",
+      "issuer": "International Telecommunication Union",
+      "category": "itu_readiness_framework",
+      "country": "International",
+      "url": "https://www.itu.int/hub/publication/t-ai4g-ai4good-2025-6/",
+      "verifiedSection": "Framework analysis — 13 readiness dimensions and policy gaps",
+      "verifiedSummary": "ITU AI Readiness Report 2.0 discusses 13 readiness dimensions and the identification of implementation, standards and policy gaps.",
+      "topics": [
+        "itu_alignment",
+        "ai_governance",
+        "education_ai"
+      ],
+      "applicationNote": "Reference for mapping readiness limitations in data availability, oversight, technical assurance and skills.",
+      "verificationLimit": "Mapping dimensions is qualitative and does not constitute a national AI readiness measurement or official rating.",
+      "checkedOn": "2026-11-05"
+    }
+  ]
+}

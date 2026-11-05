@@ -12,6 +12,7 @@ import { resolve } from "node:path";
 
 import { EVENT_TYPES, simulateCncLab } from "../agent/lib/simulate_cnc_lab.ts";
 import { EVIDENCE } from "../agent/lib/evidence_library.ts";
+import { POLICY_TOPICS, queryUaePolicyKnowledgeBase, assessUaePolicyGaps } from "../agent/lib/uae_policy_kb.ts";
 
 const htmlPath = fileURLToPath(new URL("./index.html", import.meta.url));
 const eventTypeSet = new Set(EVENT_TYPES);
@@ -54,6 +55,8 @@ function buildScenario(events) {
   const scenario = simulateCncLab(events);
   return {
     scenario,
+    policyKnowledgeBase: queryUaePolicyKnowledgeBase(),
+    policyGapAnalysis: assessUaePolicyGaps(scenario),
     evidence: sources,
     evidenceMode: "Curated metadata snapshot; not live legal or standards retrieval",
     reviewedOn: "2026-11-04",
@@ -96,6 +99,17 @@ export function createEduSafeServer() {
 
       if (request.method === "GET" && url.pathname === "/api/scenario") {
         sendJson(response, 200, buildScenario(DEFAULT_EVENTS));
+        return;
+      }
+
+      if (request.method === "GET" && url.pathname === "/api/policies") {
+        const topic = url.searchParams.get("topic") || undefined;
+        const text = url.searchParams.get("q") || "";
+        if ((topic && !POLICY_TOPICS.includes(topic)) || text.length > 200) {
+          sendJson(response, 400, { error: "Unsupported topic or query too long." });
+          return;
+        }
+        sendJson(response, 200, queryUaePolicyKnowledgeBase({ topic, text }));
         return;
       }
 

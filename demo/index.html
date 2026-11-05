@@ -129,6 +129,11 @@
     <article class="evidence"><h2 data-i18n="limitationsHeading">What Remains Unverified</h2><p class="sub" data-i18n="limitationsIntro">These questions must be resolved before claims of legal compliance or practical machine safety.</p><div id="unverified"></div><div class="guideline" data-i18n="disclaimer">This educational research prototype does not control machinery, read sensors, replace qualified personnel, or certify regulatory compliance.</div></article>
   </section>
 
+  <section class="lower" aria-label="Policy knowledge base and gap proposals">
+    <article class="evidence"><h2 data-i18n="uaeKbHeading">UAE Policy Knowledge Base</h2><p class="sub" data-i18n="uaeKbIntro">Eight official-source metadata records, separately classified as law, strategy, policy or international guidance. Offline keyword matching only; not a vector database.</p><div id="uaePolicyList"></div></article>
+    <article class="evidence"><h2 data-i18n="gapHeading">Policy Gap Candidates</h2><p class="sub" data-i18n="gapIntro">Proposed institutional controls for review. These are not findings that a UAE rule was violated.</p><div id="policyGaps"></div><div class="guideline" data-i18n="noApproval">No simulation result authorizes actual machine use or replaces local legal and safety review.</div></article>
+  </section>
+
   <footer class="footer"><span data-i18n="footerLeft">EDUSAFE POLICY TWIN · RESEARCH DEMONSTRATION · SIMULATED</span><span><strong data-i18n="footerRight">Responsible AI. Traceable decisions. Human control.</strong></span></footer>
 </div>
 <script>
@@ -173,6 +178,14 @@
     pending:["PENDING","مطلوبة"],none:["NONE","لا يوجد"],review:["EVENT REVIEW","مراجعة الحدث"],noEvents:["Use Next event to replay the incident step by step.","اضغط الحدث التالي لاستعراض الحادثة بالتتابع."],
     noSelection:["Select an event to view the review rationale.","اختر حدثًا لعرض مبررات المراجعة."],step:["STEP","الخطوة"],snapshot:["Publisher abstract/section","ملخص الناشر/القسم"],
     technicalLimits:["Source limitation","حدود المرجع"],serverUnavailable:["Local demo server is unavailable. Start it with: node demo/server.mjs","خادم العرض المحلي غير متاح. شغله بالأمر: node demo/server.mjs"],
+    uaeKbHeading:["UAE Policy Knowledge Base","قاعدة معرفة السياسات الإماراتية"],
+    uaeKbIntro:["Eight official-source metadata records, classified as law, strategy, policy or international guidance. Offline keyword matching, not a vector database.","ثمانية مراجع رسمية مصنفة إلى قانون واستراتيجية وسياسة أو إرشادات دولية. بحث محلي بالكلمات المفتاحية، وليس قاعدة متجهات."],
+    gapHeading:["Policy Gap Candidates","فجوات السياسات المقترحة للمراجعة"],
+    gapIntro:["Proposed institutional controls for review. These are not findings that a UAE rule was violated.","ضوابط مؤسسية مقترحة للمراجعة، وليست استنتاجاً بوقوع مخالفة لقانون إماراتي."],
+    noApproval:["No simulation result authorizes actual machine use or replaces local legal and safety review.","لا تسمح أي نتيجة محاكاة بتشغيل آلة حقيقية أو تستبدل المراجعة القانونية ومراجعة السلامة المحلية."],
+    categoryLaw:["Federal law (conditional scope)","قانون اتحادي (انطباق مشروط)"],
+    categoryOther:["Guidance / strategy / standard","إرشاد / استراتيجية / معيار"],
+    evidenceGapLabel:["Gap candidate","فجوة مقترحة"],
   };
   const text = (key) => L[key]?.[lang] || key;
   let lang = 0, data = null, shown = 0, selected = -1;
@@ -182,6 +195,21 @@
   };
   const safe = (value) => String(value || "");
   const c = (tag, className, content) => { const node = document.createElement(tag); if(className) node.className = className; if(content !== undefined) node.textContent = safe(content); return node; };
+  const policyArabic = {
+    "UAE-PDPL-45-2021":["قد ينطبق إذا جرى التعامل مع بيانات حقيقية تحدد هوية الطلاب أو العاملين ضمن النطاق القانوني المحدد. العرض الحالي اصطناعي بالكامل.","هذا ملخص رسمي عام، وليس حكماً بانطباق القانون على جميع مؤسسات التعليم. يلزم فحص النص الكامل والاستثناءات والسياق المؤسسي."],
+    "UAE-AI-CHARTER-2024":["يدعم مبدأ المراجعة البشرية للقرارات، لكنه لا يشكل قاعدة محددة لتشغيل آلة CNC.","الميثاق مبادئ سياساتية، ولا يُعرض بوصفه عقوبة قانونية أو إجراء سلامة مخبرياً معتمداً."],
+    "UAE-AI-STRATEGY-2031":["سياق استراتيجي إماراتي للابتكار في التعليم والذكاء الاصطناعي، وليس اشتراطاً محدداً لحواجز الآلات.","الأهداف الاستراتيجية ليست التزامات قانونية مباشرة بشأن تشغيل CNC."],
+    "UAE-AI-CYBER-POLICY":["مرجع محتمل لتأمين توصيات الذكاء الاصطناعي التعليمية ومراجعة القرارات الحساسة.","تحتاج الضوابط التفصيلية والنطاق القطاعي وقابلية الانطباق على هذا النموذج إلى تدقيق مستقل."],
+    "UNESCO-AI-ETHICS-2021":["مرجع أخلاقي دولي لمراجعة الحوادث التعليمية الافتراضية والحوكمة البشرية.","توصية اليونسكو ليست تلقائياً قانوناً ملزماً في مختبر أو جامعة محددة."],
+    "NIST-AI-RMF-1":["إطار تطوعي لتنظيم توثيق الحوادث وتبرير المخاطر والمراجعة البشرية.","ليس قانوناً إماراتياً ولا دليلاً على اعتماد أو شهادة امتثال."],
+    "ITU-T-Y3172-2019":["ربط معماري تصوري فقط بين تدفق البيانات وفهرسة الأدلة ومعالجة السيناريو ومراجعته.","المعيار خاص ببنية التعلم الآلي في شبكات الاتصالات، وليس معيار سلامة لآلة CNC ولا ندعي الامتثال له."],
+    "ITU-AI-READINESS-2":["مرجع لتحليل جاهزية البيانات والحوكمة والمهارات والفجوات التنفيذية.","هذا الربط نوعي، وليس درجة جاهزية رسمية لدولة أو مؤسسة."],
+  };
+  const gapArabic = {
+    "GAP-01":["لم تُقدَّم سياسة مؤسسية محددة لمعالجة اقتراح ذكاء اصطناعي بتجاوز حاجز حماية في المختبر.","اقتراح توثيق آلية الإيقاف والتصعيد والفحص وإذن العودة للعمل على يد مشرف مختص."],
+    "GAP-02":["الملخصات العامة لمعايير ISO لا تكفي لإثبات المتطلبات التفصيلية أو اعتمادها محلياً.","يتعين على مسؤول سلامة مختص مراجعة النصوص الكاملة المرخصة والمعايير والقواعد المحلية المنطبقة."],
+    "GAP-03":["بيانات العرض اصطناعية؛ أما التطبيق الحقيقي فيستلزم تحديد معالجة بيانات الطلاب والصلاحيات ومدد الاحتفاظ.","إعداد جرد للبيانات وتقييم مشروط لانطباق التشريعات الإماراتية قبل جمع أي معلومات شخصية."],
+  };
 
   async function loadScenario() {
     try {
@@ -237,6 +265,25 @@
     });
     const unverified=$("unverified");unverified.replaceChildren();data.unverified.forEach((line,index)=>unverified.append(c("div","guideline",lang ? (unverifiedArabic[index] || line) : line)));
   }
+  function renderPolicies() {
+    const list=$("uaePolicyList");list.replaceChildren();
+    const records=data?.policyKnowledgeBase?.matches || [];
+    records.forEach((record)=>{
+      const wrapper=c("div","source");
+      const a=c("a","",record.title);a.href=record.url;a.target="_blank";a.rel="noopener noreferrer";
+      const category=record.category==="uae_federal_law" ? text("categoryLaw") : text("categoryOther");
+      const localized = lang ? policyArabic[record.id] : null;
+      wrapper.append(a,c("p","",`${record.id} · ${category} · ${record.issuer}`),c("p","",localized?.[0] || record.applicationNote),c("p","",localized?.[1] || record.verificationLimit));
+      list.append(wrapper);
+    });
+    const gapList=$("policyGaps");gapList.replaceChildren();
+    (data?.policyGapAnalysis?.gaps || []).forEach((gap)=>{
+      const wrapper=c("div","source");
+      const localized = lang ? gapArabic[gap.id] : null;
+      wrapper.append(c("div","over",`${text("evidenceGapLabel")} ${gap.id}`),c("p","",localized?.[0] || gap.observation),c("p","",localized?.[1] || gap.proposedControl),c("p","",`${lang ? "معرّفات المراجع" : "Source IDs"}: ${gap.evidenceIds.join(", ")}`));
+      gapList.append(wrapper);
+    });
+  }
   function render() {
     renderStatic();if(!data)return;
     const current=shown ? data.scenario.timeline[shown-1].risk : null;
@@ -246,7 +293,7 @@
     $("approvalValue").textContent = shown ? text("pending") : "—";
     $("evidenceValue").textContent=String(data.evidence.length);
     $("next").disabled=shown>=data.scenario.timeline.length;
-    renderTimeline();renderGraphic();renderDetail();renderSources();
+    renderTimeline();renderGraphic();renderDetail();renderSources();renderPolicies();
   }
   $("language").addEventListener("click",()=>{lang=lang?0:1;render();});
   $("preset").addEventListener("change",loadScenario);
@@ -258,7 +305,8 @@
     const exportData={label:"SIMULATED — NOT A REAL INCIDENT",scenarioId:data.scenario.scenarioId,
       timeline:data.scenario.timeline.slice(0,shown),risk:shown?data.scenario.timeline[shown-1].risk:null,
       finalHumanApprovalRequired:true,approvedToResume:false,machineControlPerformed:false,
-      evidenceMetadata:data.evidence,evidenceMode:data.evidenceMode,unverified:data.unverified};
+      evidenceMetadata:data.evidence,evidenceMode:data.evidenceMode,unverified:data.unverified,
+      policyKnowledgeBase:data.policyKnowledgeBase,policyGapAnalysis:data.policyGapAnalysis};
     const blob=new Blob([JSON.stringify(exportData,null,2)],{type:"application/json"});
     const url=URL.createObjectURL(blob);const a=c("a");a.href=url;a.download="edusafe-simulated-audit.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
   });
