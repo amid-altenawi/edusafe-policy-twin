@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EduSafe Stage 6 — Evidence-First Lab</title>
+  <style>
+    :root { color-scheme: dark; --bg:#071925; --panel:#122c40; --panel2:#173850; --line:#366076; --text:#f3fafc; --muted:#aac5d1; --mint:#7fe1c9; --yellow:#ffd987; --red:#ffad9f }
+    * { box-sizing: border-box } body { margin:0; background:radial-gradient(ellipse at 75% 0%,#20536b 0%,#102b3b 44%,var(--bg) 92%); color:var(--text); font:16px/1.65 system-ui,"Segoe UI",Tahoma,Arial,sans-serif }
+    .wrap { max-width:1320px; margin:auto; padding:30px 24px 70px }
+    nav { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap }
+    a { color:var(--mint) } .link,.btn { color:var(--text); background:#214b62; border:1px solid #57819a; border-radius:12px; padding:10px 15px; text-decoration:none; font:inherit; cursor:pointer }
+    .btn:hover,.link:hover { filter:brightness(1.14) } .btn.primary { background:var(--mint); color:#0c2532; border-color:var(--mint); font-weight:800 } .btn:disabled { opacity:.55; cursor:not-allowed }
+    .brand { font-weight:900; letter-spacing:.06em; font-size:20px } .brand small { display:block; font-size:11px; font-weight:600; color:var(--muted) }
+    .hero { padding:63px 0 30px; border-bottom:1px solid var(--line); margin-bottom:25px }
+    .eyebrow { color:var(--mint); font-size:13px; font-weight:800; letter-spacing:.08em }
+    h1 { font-size:clamp(33px,5vw,66px); line-height:1.14; margin:17px 0; max-width:1100px; letter-spacing:-.025em }
+    h2 { margin:0 0 10px; font-size:23px } h3 { margin:0 0 6px; font-size:18px }
+    p { margin:0 0 10px } .sub,.muted { color:var(--muted) } .notice { margin:15px 0 26px; padding:15px 18px; background:#77522255; border:1px solid #a8843a; border-radius:15px; color:#ffe2a1 }
+    .layout { display:grid; grid-template-columns:1.04fr .96fr; gap:20px }
+    .box { border:1px solid var(--line); border-radius:19px; background:linear-gradient(135deg,var(--panel),#123047); padding:25px; min-width:0 }
+    textarea { width:100%; min-height:168px; resize:vertical; background:#091f2f; border:1px solid #4c829a; border-radius:13px; padding:18px; font:inherit; color:var(--text); margin:14px 0; line-height:1.6 }
+    textarea:focus { outline:2px solid var(--mint) } .actions { display:flex; align-items:center; flex-wrap:wrap; gap:10px }
+    .status { color:var(--yellow); font-size:14px; margin:15px 0 0 }
+    .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin:20px 0 }
+    .metric { padding:18px; border:1px solid var(--line); border-radius:15px; background:var(--panel2) } .metric span { display:block; font-size:13px; color:var(--muted) } .metric strong { font-size:clamp(16px,2vw,26px); overflow-wrap:anywhere }
+    .good { color:var(--mint) } .warn { color:var(--yellow) } .bad { color:var(--red) }
+    .source { border-top:1px solid var(--line); padding:16px 0 } .source:first-of-type { border-top:0 } .source small { display:block; color:var(--muted) }
+    .pill { display:inline-block; border:1px solid var(--line); background:#1c4359; border-radius:999px; padding:3px 10px; margin:3px 0 7px; font-size:12px }
+    .empty { color:var(--muted); padding:30px; border:1px dashed var(--line); border-radius:14px }
+    footer { margin-top:30px; color:var(--muted); font-size:13px }
+    @media(max-width:900px){ .layout {grid-template-columns:1fr} .metrics {grid-template-columns:1fr} .hero {padding-top:30px} }
+  </style>
+</head>
+<body><main class="wrap">
+  <nav>
+    <div class="brand">EDUSAFE <small>POLICY TWIN / EVIDENCE-FIRST LAB</small></div>
+    <div style="display:flex;gap:9px;flex-wrap:wrap">
+      <a class="link" href="/decision-room.html" data-ar="← غرفة القرارات" data-en="← Decision Room">← غرفة القرارات</a>
+      <button class="btn" id="lang" type="button">English</button>
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="eyebrow">STAGE 6 · AI FOR GOOD · ENGINEERING EDUCATION</div>
+    <h1 data-ar="لا تقبل إجابة الذكاء الاصطناعي قبل فحص أدلتها." data-en="Don't trust an AI answer until its evidence is checked.">لا تقبل إجابة الذكاء الاصطناعي قبل فحص أدلتها.</h1>
+    <p class="sub" data-ar="صف حادثاً تعليمياً افتراضياً. سيُطابق المختبر الموضوعات ببيانات مراجع رسمية مفهرسة، ويبيّن حدود الاستشهادات، ويعرض فحصاً آلياً لأي تصنيف مقترح من نموذج حي إذا كان متاحاً." data-en="Enter a fictional education-lab incident. The system retrieves curated official publisher metadata, discloses citation limits, and can validate a real model's bounded classification when explicitly configured.">صف حادثاً تعليمياً افتراضياً. سيُطابق المختبر الموضوعات ببيانات مراجع رسمية مفهرسة، ويبيّن حدود الاستشهادات، ويعرض فحصاً آلياً لأي تصنيف مقترح من نموذج حي إذا كان متاحاً.</p>
+  </section>
+  <aside class="notice" data-ar="بحث أولي تجريبي فقط: لا نصوص قانونية كاملة، ولا استنتاج صلاحية تشغيل آلة، ولا بيانات طلاب حقيقيين. التشغيل الحي يرسل النص الافتراضي إلى مزوّد خارجي بعد تأكيدك." data-en="Research prototype only: no complete legal clauses, no machine-start authority, and no real student data. Live mode sends your fictional text to a configured external provider after your confirmation.">بحث أولي تجريبي فقط: لا نصوص قانونية كاملة، ولا استنتاج صلاحية تشغيل آلة، ولا بيانات طلاب حقيقيين. التشغيل الحي يرسل النص الافتراضي إلى مزوّد خارجي بعد تأكيدك.</aside>
+  <div class="layout">
+    <section class="box">
+      <h2 data-ar="01 · أدخل حالة افتراضية" data-en="01 · Fictional case input">01 · أدخل حالة افتراضية</h2>
+      <p class="sub" data-ar="يمكنك تغيير النص لاختبار حالة جديدة. لا تضع أسماء أو أرقام اتصال أو بيانات شخصية." data-en="Edit this test case freely. Do not include real names, contact information or personal data.">يمكنك تغيير النص لاختبار حالة جديدة. لا تضع أسماء أو أرقام اتصال أو بيانات شخصية.</p>
+      <textarea id="incident" maxlength="1500" aria-label="Fictional incident">A fictional CNC tutoring AI suggests bypassing a protective guard. A student asks to start the machine before a supervisor reviews the advice.</textarea>
+      <div class="actions">
+        <button class="btn primary" id="offline" type="button" data-ar="تحليل الأدلة محلياً" data-en="Analyze evidence offline">تحليل الأدلة محلياً</button>
+        <button class="btn" id="live" type="button" data-ar="استدعاء نموذج حي (اختياري)" data-en="Call live model (optional)">استدعاء نموذج حي (اختياري)</button>
+        <button class="btn" id="export" type="button" disabled data-ar="تنزيل نتيجة JSON" data-en="Export JSON result">تنزيل نتيجة JSON</button>
+      </div>
+      <div id="provider" class="status">جاري التحقق من إعداد النموذج...</div>
+      <div id="message" role="status" class="status"></div>
+      <div class="metrics">
+        <div class="metric"><span data-ar="القرار المقترح" data-en="Bounded recommendation">القرار المقترح</span><strong id="action">—</strong></div>
+        <div class="metric"><span data-ar="الاستشهادات المطابقة" data-en="Matched source records">الاستشهادات المطابقة</span><strong id="count">—</strong></div>
+        <div class="metric"><span data-ar="مراجعة نموذج الذكاء" data-en="Live model check">مراجعة نموذج الذكاء</span><strong id="model">—</strong></div>
+      </div>
+      <h3 data-ar="التحكم البشري لا يزال إلزامياً" data-en="Independent human clearance stays mandatory">التحكم البشري لا يزال إلزامياً</h3>
+      <p class="muted" id="gate">—</p>
+      <h3 data-ar="رموز المسائل المكتشفة" data-en="Detected issue codes">رموز المسائل المكتشفة</h3>
+      <p class="muted" id="issues">—</p>
+    </section>
+    <section class="box">
+      <h2 data-ar="02 · دفتر الأدلة والحدود" data-en="02 · Evidence ledger and limits">02 · دفتر الأدلة والحدود</h2>
+      <p class="sub" data-ar="كل نتيجة هنا وصف تحريري لصفحة ناشر رسمي، وليست اقتباساً حرفياً أو إثبات انطباق قانون." data-en="Each result is an editorial summary of official publisher-page metadata, not a verbatim excerpt or proof of applicable law.">كل نتيجة هنا وصف تحريري لصفحة ناشر رسمي، وليست اقتباساً حرفياً أو إثبات انطباق قانون.</p>
+      <div id="sources" class="empty" data-ar="حلّل الحالة لتظهر المراجع المقيدة بسياقها." data-en="Analyze a case to view bounded publisher references.">حلّل الحالة لتظهر المراجع المقيدة بسياقها.</div>
+    </section>
+  </div>
+  <footer>EDUSAFE POLICY TWIN · AMED ALTENAWI · SYNTHETIC INCIDENTS ONLY · NO MACHINE CONNECTION</footer>
+</main>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  let language='ar', last=null, configured=false;
+  const labels={
+    ar:{unavailable:'النموذج الحي غير مفعّل؛ التحليل المحلي جاهز.',available:'النموذج الحي مُعدّ، لكن لم يُختبر اتصاله بعد.',busy:'جارٍ فحص الحالة...',done:'اكتمل التحليل.',error:'تعذر التحليل: ',confirm:'هل تؤكد أن النص افتراضي بالكامل ولا يتضمن بيانات شخصية، وتوافق على إرساله إلى مزوّد النموذج الخارجي؟'},
+    en:{unavailable:'Live model not configured; offline review is ready.',available:'Live model configured, but connectivity has not yet been verified.',busy:'Analyzing fictional case...',done:'Review completed.',error:'Review failed: ',confirm:'Confirm: this text is entirely fictional, contains no personal data, and may be sent to the external model provider?'}
+  };
+  const tr=(ar,en)=>language==='ar'?ar:en;
+  const elt=(name,text,className='')=>{const e=document.createElement(name);e.textContent=text;if(className)e.className=className;return e;};
+  function setLanguage(next){language=next;document.documentElement.lang=next;document.documentElement.dir=next==='ar'?'rtl':'ltr';$('lang').textContent=next==='ar'?'English':'العربية';document.querySelectorAll('[data-ar][data-en]').forEach(e=>{e.textContent=e.dataset[next]});$('provider').textContent=configured?labels[next].available:labels[next].unavailable;if(last)render(last);}
+  $('lang').addEventListener('click',()=>setLanguage(language==='ar'?'en':'ar'));
+  function render(result){last=result;$('action').textContent=result.deterministicRecommendation;$('count').textContent=String(result.evidence.length);$('model').textContent=result.aiReview.status;
+    $('gate').textContent=tr('لا تصريح تشغيلي. المراجعة البشرية المستقلة مطلوبة دائمًا.','No operating authorization. Independent human review is always required.');
+    $('issues').textContent=result.issueCodes.length?result.issueCodes.join(' · '):tr('لم تُحدد مسألة مدعومة؛ امتنع النظام عن الجزم.','No supported issue identified; the system abstained.');
+    const target=$('sources');target.replaceChildren();if(!result.evidence.length){target.append(elt('p',tr('لم يوجد تطابق في قاعدة البيانات المحدودة. هذا لا يثبت غياب سياسة ذات صلة.','No match in the limited index. This does not prove that a relevant policy does not exist.'),'empty'));return;}
+    for(const record of result.evidence){const box=elt('article','', 'source');const name=elt('a',record.title);if(record.url.startsWith('https://')){name.href=record.url;name.target='_blank';name.rel='noopener noreferrer';}box.append(name);box.append(elt('small',record.issuer+' · '+record.category));box.append(elt('span',record.id+' · '+record.verifiedSection,'pill'));box.append(elt('p',record.curatorSummary));box.append(elt('p',tr('قيد المرجع: ','Source limitation: ')+record.verificationLimit,'muted'));target.append(box);}
+  }
+  async function run(mode){if(mode==='live'&&!window.confirm(labels[language].confirm))return;const text=$('incident').value.trim();$('offline').disabled=true;$('live').disabled=true;$('message').textContent=labels[language].busy;
+    try{const response=await fetch('/api/evidence-lab',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text,mode})});const data=await response.json();if(!response.ok)throw new Error(data.error||String(response.status));render(data);$('export').disabled=false;$('message').textContent=labels[language].done;}
+    catch(e){$('message').textContent=labels[language].error+e.message;}finally{$('offline').disabled=false;$('live').disabled=!configured;}
+  }
+  $('offline').addEventListener('click',()=>run('offline'));$('live').addEventListener('click',()=>run('live'));
+  $('export').addEventListener('click',()=>{if(!last)return;const url=URL.createObjectURL(new Blob([JSON.stringify(last,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='edusafe-stage6-evidence-review.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);});
+  fetch('/api/evidence-lab/status').then(r=>r.json()).then(data=>{configured=Boolean(data.configured);$('live').disabled=!configured;$('provider').textContent=labels[language][configured?'available':'unavailable'];}).catch(()=>{$('live').disabled=true;$('provider').textContent=labels[language].unavailable;});
+  run('offline');
+})();
+</script>
+</body></html>

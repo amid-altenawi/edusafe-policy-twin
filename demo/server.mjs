@@ -14,9 +14,11 @@ import { EVENT_TYPES, simulateCncLab } from "../agent/lib/simulate_cnc_lab.ts";
 import { EVIDENCE } from "../agent/lib/evidence_library.ts";
 import { POLICY_TOPICS, queryUaePolicyKnowledgeBase, assessUaePolicyGaps } from "../agent/lib/uae_policy_kb.ts";
 import { evaluateDecisionRoom, validateDecisionInput } from "../agent/lib/decision_room.mjs";
+import { analyzeEvidenceFirst, getLiveAiStatus, validateEvidenceRequest } from "../agent/lib/evidence_first.mjs";
 
 const htmlPath = fileURLToPath(new URL("./index.html", import.meta.url));
 const decisionRoomHtmlPath = fileURLToPath(new URL("./decision-room.html", import.meta.url));
+const evidenceLabHtmlPath = fileURLToPath(new URL("./evidence-lab.html", import.meta.url));
 const eventTypeSet = new Set(EVENT_TYPES);
 
 export const DEFAULT_EVENTS = Object.freeze([
@@ -87,8 +89,8 @@ export function createEduSafeServer() {
   return createServer(async (request, response) => {
     try {
       const url = new URL(request.url || "/", "http://localhost");
-      if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html" || url.pathname === "/decision-room.html")) {
-        const html = await readFile(url.pathname === "/decision-room.html" ? decisionRoomHtmlPath : htmlPath);
+      if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html" || url.pathname === "/decision-room.html" || url.pathname === "/evidence-lab.html")) {
+        const html = await readFile(url.pathname === "/decision-room.html" ? decisionRoomHtmlPath : url.pathname === "/evidence-lab.html" ? evidenceLabHtmlPath : htmlPath);
         response.writeHead(200, {
           "content-type": "text/html; charset=utf-8",
           "cache-control": "no-store",
@@ -117,6 +119,21 @@ export function createEduSafeServer() {
 
       if (request.method === "GET" && url.pathname === "/api/decision-room") {
         sendJson(response, 200, evaluateDecisionRoom({ events: DEFAULT_EVENTS }));
+        return;
+      }
+
+      if (request.method === "GET" && url.pathname === "/api/evidence-lab/status") {
+        sendJson(response, 200, getLiveAiStatus());
+        return;
+      }
+
+      if (request.method === "POST" && url.pathname === "/api/evidence-lab") {
+        const payload = await parseJsonBody(request);
+        try {
+          sendJson(response, 200, await analyzeEvidenceFirst(validateEvidenceRequest(payload)));
+        } catch (error) {
+          sendJson(response, 400, { error: error.message });
+        }
         return;
       }
 
