@@ -6,7 +6,7 @@
  */
 import { UAE_POLICY_KB } from "./uae_policy_kb.ts";
 
-export const EVIDENCE_FIRST_VERSION = "6.0.0-research";
+export const EVIDENCE_FIRST_VERSION = "6.1.0-research";
 export const ACTION_CODES = Object.freeze(["STOP_AND_ESCALATE", "RECORD_AND_REVIEW", "ABSTAIN"]);
 export const ISSUE_CODES = Object.freeze([
   "UNSAFE_GUARD_ADVICE", "START_REQUEST", "AI_AUTHORITY_OVERREACH",
@@ -14,10 +14,18 @@ export const ISSUE_CODES = Object.freeze([
 ]);
 
 const WORDS = (value) => value.toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) ?? [];
+// Keep the incident cue bounded to a machine guard while recognizing common
+// English inflections. This is deliberately lexical screening, not an NLP or
+// engineering-safety assessment. Cases that imply negation remain a limitation.
+const GUARD_OVERRIDE_VERB = String.raw`(?:bypass(?:es|ed|ing)?|disabl(?:e|es|ed|ing)|defeat(?:s|ed|ing)?|overrid(?:e|es|ing|den)|remov(?:e|es|ed|ing))`;
+const GUARD_TERM = String.raw`(?:guard|guards|interlock|interlocks|safety|protective)`;
+const GUARD_OVERRIDE_EN = new RegExp(
+  String.raw`\b${GUARD_OVERRIDE_VERB}\b.{0,80}\b${GUARD_TERM}\b|\b${GUARD_TERM}\b.{0,80}\b${GUARD_OVERRIDE_VERB}\b`, "iu",
+);
 const RULES = Object.freeze([
   {
     code: "UNSAFE_GUARD_ADVICE",
-    match: /\b(?:bypass|disable|defeat|override|remove)\b.{0,80}\b(?:guard|interlock|safety|protective)\b|\b(?:guard|interlock|protective|safety)\b.{0,80}\b(?:bypass|disable|defeat|override|remove)\b|تجاوز.{0,35}(?:حاجز|حماية|واقي)|تعطيل.{0,35}(?:حاجز|حماية|واقي)|(?:حاجز|حماية|واقي).{0,35}(?:تجاوز|تعطيل)/iu,
+    match: { test: (text) => GUARD_OVERRIDE_EN.test(text) || /تجاوز.{0,35}(?:حاجز|حماية|واقي)|تعطيل.{0,35}(?:حاجز|حماية|واقي)|(?:حاجز|حماية|واقي).{0,35}(?:تجاوز|تعطيل)/iu.test(text) },
     ids: ["NIST-AI-RMF-1", "UNESCO-AI-ETHICS-2021", "UAE-AI-CHARTER-2024"],
   },
   {
@@ -102,8 +110,18 @@ export function validateModelProposal(candidate, allowedRecords, mandatoryIssueC
   if (!Array.isArray(candidate.issue_codes) || !candidate.issue_codes.every((value) => ISSUE_CODES.includes(value))) return { valid: false, reason: "UNSUPPORTED_ISSUE" };
   if (!Array.isArray(candidate.source_ids) || !candidate.source_ids.every((id) => allowedRecords.some((record) => record.id === id))) return { valid: false, reason: "UNVERIFIED_CITATION" };
   if (new Set(candidate.source_ids).size !== candidate.source_ids.length || new Set(candidate.issue_codes).size !== candidate.issue_codes.length) return { valid: false, reason: "DUPLICATE_ITEMS" };
+  // A model may not introduce a new incident finding just because its code is
+  // on the globally allowed list. Only independently retrieved rule matches
+  // are supported by this metadata-only prototype.
+  if (mandatoryIssueCodes.length && candidate.issue_codes.some((issue) => !mandatoryIssueCodes.includes(issue))) {
+    return { valid: false, reason: "ISSUE_NOT_GROUNDED" };
+  }
   if (candidate.action_code !== "ABSTAIN" && !candidate.source_ids.length) return { valid: false, reason: "MISSING_EVIDENCE" };
   if (candidate.action_code !== "ABSTAIN" && !candidate.issue_codes.length) return { valid: false, reason: "MISSING_ISSUE" };
+  if (candidate.action_code !== "ABSTAIN" && candidate.issue_codes.some((issue) =>
+    !candidate.source_ids.some((id) => allowedRecords.some((record) => record.id === id && record.matchedIssueCodes?.includes(issue))))) {
+    return { valid: false, reason: "ISSUE_WITHOUT_MATCHED_SOURCE" };
+  }
   const urgent = mandatoryIssueCodes.filter((issue) => ["UNSAFE_GUARD_ADVICE", "START_REQUEST", "AI_AUTHORITY_OVERREACH"].includes(issue));
   if (urgent.length && candidate.action_code !== "STOP_AND_ESCALATE") return { valid: false, reason: "UNDER_ESCALATION" };
   if (urgent.some((issue) => !candidate.issue_codes.includes(issue))) return { valid: false, reason: "OMITTED_URGENT_ISSUE" };
@@ -116,7 +134,13 @@ function modelIsConfigured() {
 }
 
 export function getLiveAiStatus() {
-  return { configured: modelIsConfigured(), providerMode: "OPT_IN_EXTERNAL_MODEL", personalDataAllowed: false };
+  let providerMode = "OPT_IN_EXTERNAL_MODEL";
+  try {
+    if (["127.0.0.1", "localhost"].includes(new URL(process.env.EDUSAFE_LLM_ENDPOINT).hostname)) {
+      providerMode = "OPT_IN_LOCAL_MODEL";
+    }
+  } catch { /* Unconfigured endpoint: modelIsConfigured remains false. */ }
+  return { configured: modelIsConfigured(), providerMode, personalDataAllowed: false };
 }
 
 async function callConfiguredModel({ text, evidence }) {
@@ -182,7 +206,7 @@ export async function analyzeEvidenceFirst(raw, { modelCall = callConfiguredMode
     const candidate = await modelCall({ text: input.text, evidence: grounded.records });
     const validation = validateModelProposal(candidate, grounded.records, grounded.issueCodes);
     output.aiReview = validation.valid
-      ? { status: "MODEL_OUTPUT_VERIFIED", accepted: true, ...validation.proposal }
+      ? { status: "MODEL_OUTPUT_VERIFIED", accepted: true, validationScope: "RULE_MATCHES_AND_SOURCE_METADATA_NOT_SEMANTIC_TRUTH", ...validation.proposal }
       : { status: "MODEL_OUTPUT_REJECTED", accepted: false, reason: validation.reason };
   } catch {
     output.aiReview = { status: "MODEL_UNAVAILABLE_OR_INVALID", accepted: false, reason: "PROVIDER_OR_RESPONSE_FAILURE" };

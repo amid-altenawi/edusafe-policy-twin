@@ -36,12 +36,69 @@ test("Arabic incident cues are mapped to bounded sources", () => {
   assert.ok(result.records.every((record) => record.id));
 });
 
+test("reported live Ollama wording detects bypassing guard and the start request", () => {
+  const text = "A fictional CNC tutoring AI suggests bypassing a protective guard. A student asks to start the machine before a supervisor reviews the advice.";
+  const grounded = retrieveGroundedEvidence(text);
+  assert.deepEqual(grounded.issueCodes, ["UNSAFE_GUARD_ADVICE", "START_REQUEST"]);
+  assert.ok(grounded.records.some((record) => record.matchedIssueCodes.includes("UNSAFE_GUARD_ADVICE")));
+  assert.ok(grounded.records.some((record) => record.matchedIssueCodes.includes("START_REQUEST")));
+});
+
+test("guard override variations are detected without making ordinary inspection unsafe", () => {
+  for (const text of [
+    "The fictional AI advised that the CNC operator bypassed a protective guard.",
+    "A fictional AI tutor recommends disabling the safety interlock.",
+    "A simulated assistant suggested the machine guard was removed.",
+    "The lab assistant was told to override the safety interlock.",
+  ]) {
+    assert.ok(retrieveGroundedEvidence(text).issueCodes.includes("UNSAFE_GUARD_ADVICE"), text);
+  }
+  assert.ok(!retrieveGroundedEvidence("A fictional teacher inspected the protective guards after a lesson.").issueCodes.includes("UNSAFE_GUARD_ADVICE"));
+});
+
 test("model validator rejects unsupported authorization and fabricated citations", () => {
   const sources = retrieveGroundedEvidence(dangerous).records;
   const issues = ["UNSAFE_GUARD_ADVICE", "START_REQUEST"];
   assert.equal(validateModelProposal({ action_code: "APPROVE_RESTART", issue_codes: issues, source_ids: [sources[0].id] }, sources, issues).reason, "UNSUPPORTED_ACTION");
   assert.equal(validateModelProposal({ action_code: "STOP_AND_ESCALATE", issue_codes: issues, source_ids: ["FAKE-LEGAL-CLAUSE"] }, sources, issues).reason, "UNVERIFIED_CITATION");
   assert.equal(validateModelProposal({ action_code: "RECORD_AND_REVIEW", issue_codes: issues, source_ids: [sources[0].id] }, sources, issues).reason, "UNDER_ESCALATION");
+});
+
+test("model cannot insert ungrounded issues or support an issue with an unrelated retrieved source", () => {
+  const records = retrieveGroundedEvidence(dangerous).records;
+  const groundedIssues = ["UNSAFE_GUARD_ADVICE", "START_REQUEST"];
+  const fabricatedFinding = validateModelProposal({
+    action_code: "STOP_AND_ESCALATE",
+    issue_codes: [...groundedIssues, "PERSONAL_DATA_SCOPE"],
+    source_ids: ["NIST-AI-RMF-1"],
+  }, records, groundedIssues);
+  assert.equal(fabricatedFinding.reason, "ISSUE_NOT_GROUNDED");
+
+  const guardOnlySource = records.find((record) => record.matchedIssueCodes.includes("UNSAFE_GUARD_ADVICE") && !record.matchedIssueCodes.includes("START_REQUEST"));
+  assert.ok(guardOnlySource);
+  const orphanCitation = validateModelProposal({
+    action_code: "STOP_AND_ESCALATE",
+    issue_codes: groundedIssues,
+    source_ids: [guardOnlySource.id],
+  }, records, groundedIssues);
+  assert.equal(orphanCitation.reason, "ISSUE_WITHOUT_MATCHED_SOURCE");
+});
+
+test("live model status labels local endpoints as local rather than external", () => {
+  const keys = ["EDUSAFE_ENABLE_LIVE_AI", "EDUSAFE_LLM_ENDPOINT", "EDUSAFE_LLM_MODEL", "EDUSAFE_LLM_API_KEY"];
+  const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
+  try {
+    process.env.EDUSAFE_ENABLE_LIVE_AI = "1";
+    process.env.EDUSAFE_LLM_ENDPOINT = "http://127.0.0.1:11434/v1/chat/completions";
+    process.env.EDUSAFE_LLM_MODEL = "qwen3:0.6b";
+    process.env.EDUSAFE_LLM_API_KEY = "dummy";
+    assert.deepEqual(getLiveAiStatus(), { configured: true, providerMode: "OPT_IN_LOCAL_MODEL", personalDataAllowed: false });
+  } finally {
+    for (const key of keys) {
+      if (previous[key] === undefined) delete process.env[key];
+      else process.env[key] = previous[key];
+    }
+  }
 });
 
 test("valid simulated model output can be accepted but still cannot authorize a machine", async () => {

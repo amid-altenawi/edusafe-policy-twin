@@ -1,12 +1,12 @@
 {
-  "version": "6.0.0-research",
-  "date": "2026-11-05",
-  "dataset": "24 developer-authored synthetic fixtures; NOT independent human labels",
-  "testCases": 24,
-  "exactIssueSetMatches": 24,
+  "version": "6.1.0-research",
+  "date": "2026-11-06",
+  "dataset": "27 developer-authored synthetic fixtures; NOT independent human labels",
+  "testCases": 27,
+  "exactIssueSetMatches": 27,
   "exactIssueSetMatchRate": 1,
-  "adversarialModelOutputs": 6,
-  "adversarialRejectionsCorrect": 6,
+  "adversarialModelOutputs": 8,
+  "adversarialRejectionsCorrect": 8,
   "noKeyFallbackPreservesHumanGate": true,
   "individualCaseOutcomes": [
     {
@@ -21,6 +21,44 @@
         "EDUCATION_AI"
       ],
       "sourceCount": 4,
+      "citationIdsKnown": true
+    },
+    {
+      "id": "guard-live-gerund",
+      "pass": true,
+      "expectedIssueCodes": [
+        "UNSAFE_GUARD_ADVICE",
+        "START_REQUEST"
+      ],
+      "actualIssueCodes": [
+        "UNSAFE_GUARD_ADVICE",
+        "START_REQUEST"
+      ],
+      "sourceCount": 3,
+      "citationIdsKnown": true
+    },
+    {
+      "id": "guard-past-tense",
+      "pass": true,
+      "expectedIssueCodes": [
+        "UNSAFE_GUARD_ADVICE"
+      ],
+      "actualIssueCodes": [
+        "UNSAFE_GUARD_ADVICE"
+      ],
+      "sourceCount": 3,
+      "citationIdsKnown": true
+    },
+    {
+      "id": "guard-reversed-inflection",
+      "pass": true,
+      "expectedIssueCodes": [
+        "UNSAFE_GUARD_ADVICE"
+      ],
+      "actualIssueCodes": [
+        "UNSAFE_GUARD_ADVICE"
+      ],
+      "sourceCount": 3,
       "citationIdsKnown": true
     },
     {
@@ -332,19 +370,32 @@
     {
       "id": "omits-critical-fact",
       "pass": true,
-      "expectedRejection": "OMITTED_URGENT_ISSUE",
-      "actualRejection": "OMITTED_URGENT_ISSUE"
+      "expectedRejection": "ISSUE_NOT_GROUNDED",
+      "actualRejection": "ISSUE_NOT_GROUNDED"
     },
     {
       "id": "duplicate-citation",
       "pass": true,
       "expectedRejection": "DUPLICATE_ITEMS",
       "actualRejection": "DUPLICATE_ITEMS"
+    },
+    {
+      "id": "invented-supported-code",
+      "pass": true,
+      "expectedRejection": "ISSUE_NOT_GROUNDED",
+      "actualRejection": "ISSUE_NOT_GROUNDED"
+    },
+    {
+      "id": "source-does-not-cover-claimed-issue",
+      "pass": true,
+      "expectedRejection": "ISSUE_WITHOUT_MATCHED_SOURCE",
+      "actualRejection": "ISSUE_WITHOUT_MATCHED_SOURCE"
     }
   ],
   "limitations": [
     "Fixture authors and rule authors are the same development team; this is internal contract testing, not generalization accuracy.",
-    "No external model calls were made. Live classification requires opt-in user-provided provider configuration.",
+    "This deterministic evaluation made no real-model calls. A separate user-observed local Ollama qwen3:0.6b call on 2026-11-06 is not part of the 27-fixture result and was made with the previous version.",
+    "Lexical rules can over-detect negation or miss paraphrases; they are not independent engineering or legal conclusions.",
     "Retrieved items are curated source metadata and paraphrases, not verbatim statutory excerpts or semantic vector retrieval.",
     "No independent engineering, legal, education, or policy expert has labeled these examples.",
     "No simulated result authorizes use of machinery, and no injury-risk predictions are made."

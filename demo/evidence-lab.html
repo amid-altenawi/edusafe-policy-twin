@@ -45,7 +45,7 @@
     <h1 data-ar="لا تقبل إجابة الذكاء الاصطناعي قبل فحص أدلتها." data-en="Don't trust an AI answer until its evidence is checked.">لا تقبل إجابة الذكاء الاصطناعي قبل فحص أدلتها.</h1>
     <p class="sub" data-ar="صف حادثاً تعليمياً افتراضياً. سيُطابق المختبر الموضوعات ببيانات مراجع رسمية مفهرسة، ويبيّن حدود الاستشهادات، ويعرض فحصاً آلياً لأي تصنيف مقترح من نموذج حي إذا كان متاحاً." data-en="Enter a fictional education-lab incident. The system retrieves curated official publisher metadata, discloses citation limits, and can validate a real model's bounded classification when explicitly configured.">صف حادثاً تعليمياً افتراضياً. سيُطابق المختبر الموضوعات ببيانات مراجع رسمية مفهرسة، ويبيّن حدود الاستشهادات، ويعرض فحصاً آلياً لأي تصنيف مقترح من نموذج حي إذا كان متاحاً.</p>
   </section>
-  <aside class="notice" data-ar="بحث أولي تجريبي فقط: لا نصوص قانونية كاملة، ولا استنتاج صلاحية تشغيل آلة، ولا بيانات طلاب حقيقيين. التشغيل الحي يرسل النص الافتراضي إلى مزوّد خارجي بعد تأكيدك." data-en="Research prototype only: no complete legal clauses, no machine-start authority, and no real student data. Live mode sends your fictional text to a configured external provider after your confirmation.">بحث أولي تجريبي فقط: لا نصوص قانونية كاملة، ولا استنتاج صلاحية تشغيل آلة، ولا بيانات طلاب حقيقيين. التشغيل الحي يرسل النص الافتراضي إلى مزوّد خارجي بعد تأكيدك.</aside>
+  <aside class="notice" data-ar="بحث أولي تجريبي فقط: لا نصوص قانونية كاملة، ولا استنتاج صلاحية تشغيل آلة، ولا بيانات طلاب حقيقيين. التشغيل الحي يرسل النص الافتراضي إلى نقطة النموذج المهيأة محلياً أو خارجياً، بعد تأكيدك." data-en="Research prototype only: no complete legal clauses, no machine-start authority, and no real student data. Live mode sends the fictional text to the configured model endpoint, local or external, after confirmation.">بحث أولي تجريبي فقط: لا نصوص قانونية كاملة، ولا استنتاج صلاحية تشغيل آلة، ولا بيانات طلاب حقيقيين. التشغيل الحي يرسل النص الافتراضي إلى نقطة النموذج المهيأة محلياً أو خارجياً، بعد تأكيدك.</aside>
   <div class="layout">
     <section class="box">
       <h2 data-ar="01 · أدخل حالة افتراضية" data-en="01 · Fictional case input">01 · أدخل حالة افتراضية</h2>
@@ -82,8 +82,8 @@
   const $ = id => document.getElementById(id);
   let language='ar', last=null, configured=false;
   const labels={
-    ar:{unavailable:'النموذج الحي غير مفعّل؛ التحليل المحلي جاهز.',available:'النموذج الحي مُعدّ، لكن لم يُختبر اتصاله بعد.',busy:'جارٍ فحص الحالة...',done:'اكتمل التحليل.',error:'تعذر التحليل: ',confirm:'هل تؤكد أن النص افتراضي بالكامل ولا يتضمن بيانات شخصية، وتوافق على إرساله إلى مزوّد النموذج الخارجي؟'},
-    en:{unavailable:'Live model not configured; offline review is ready.',available:'Live model configured, but connectivity has not yet been verified.',busy:'Analyzing fictional case...',done:'Review completed.',error:'Review failed: ',confirm:'Confirm: this text is entirely fictional, contains no personal data, and may be sent to the external model provider?'}
+    ar:{unavailable:'النموذج الحي غير مفعّل؛ التحليل المحلي جاهز.',available:'النموذج الحي مُعدّ، لكن لم يُختبر اتصاله بعد.',busy:'جارٍ فحص الحالة...',done:'اكتمل التحليل.',error:'تعذر التحليل: ',confirm:'هل تؤكد أن النص افتراضي بالكامل ولا يتضمن بيانات شخصية، وتوافق على إرساله إلى نقطة النموذج المهيأة (قد تكون محلية أو خارجية)؟'},
+    en:{unavailable:'Live model not configured; offline review is ready.',available:'Live model configured, but connectivity has not yet been verified.',busy:'Analyzing fictional case...',done:'Review completed.',error:'Review failed: ',confirm:'Confirm: this text is entirely fictional, contains no personal data, and may be sent to the configured model endpoint (local or external)?'}
   };
   const tr=(ar,en)=>language==='ar'?ar:en;
   const elt=(name,text,className='')=>{const e=document.createElement(name);e.textContent=text;if(className)e.className=className;return e;};
